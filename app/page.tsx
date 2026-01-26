@@ -1,6 +1,6 @@
 import ContainerLay from "@/PageLayout/ContainerLay";
 import Image from "next/image";
-import RecentPost from "./components/HOME/RecentPost";
+import RecentPost from "./components/home/RecentPost";
 
 export default function Home() {
   return (
@@ -9,10 +9,10 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center px-4 py-6 md:py-8 animate-fade-in">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-200 tracking-wide leading-tight md:leading-snug lg:leading-normal animate-slide-down">
-            <span className="text-blue-500 inline-block animate-pulse-slow">Welcome to Ese's Tech Blog</span>
+            <span className="text-blue-500 inline-block animate-pulse-slow">Bem-vindo ao Blog Tech da Ese</span>
             <br />
             <span className="text-gray-300 text-2xl sm:text-3xl md:text-4xl lg:text-5xl block mt-4 animate-slide-up animation-delay-300">
-              Your go-to source for the latest in technology and programming!
+              Sua fonte confiável para o que há de mais recente em tecnologia e programação!
             </span>
           </h1>
         </div>
@@ -25,7 +25,7 @@ export default function Home() {
               <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-2xl hover:shadow-blue-500/30 transition-all duration-500">
                 <Image
                   src="/image for blog/working_lady.jpg"
-                  alt="Tech Blog Illustration - Professional working on technology"
+                  alt="Ilustração do Blog Tech - Profissional trabalhando com tecnologia"
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
@@ -41,21 +41,21 @@ export default function Home() {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                 </span>
                 <span className="text-xs sm:text-sm uppercase tracking-widest font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  Discover. Learn. Innovate.
+                  Descubra. Aprenda. Inove.
                 </span>
               </div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
-                 Enhance your tech skills and stay updated with industry trends.
+                Aprimore suas habilidades em tecnologia e acompanhe as tendências do setor..
               </h2>
               <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed">
-                At Ese's Tech Blog, we provide in-depth tutorials, the latest tech news, and practical code examples to help you navigate the ever-evolving world of technology. Whether you're a beginner or an experienced developer, our content is tailored to keep you informed and inspired.
+                No Blog Tech da Ese, fornecemos tutoriais aprofundados, as últimas notícias sobre tecnologia e exemplos de código práticos para ajudá-lo a navegar pelo mundo em constante evolução da tecnologia. Seja você iniciante ou desenvolvedor experiente, nosso conteúdo é feito sob medida para mantê-lo informado e inspirado.
               </p>
               <div className="pt-4">
                 <a
                   href="/articles"
                   className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg font-semibold text-sm sm:text-base md:text-lg transition-all duration-300 shadow-lg hover:shadow-blue-500/50 hover:scale-105"
                 >
-                  Explore Articles
+                  Explorar Artigos
                   <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
