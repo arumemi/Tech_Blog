@@ -3,7 +3,7 @@ import React, { useMemo, useRef, useState } from 'react'
 import ContainerLay from '@/PageLayout/ContainerLay'
 import dynamic from 'next/dynamic';
 
-const JoditEditor = dynamic(() => import('jodit-react'), { ssr: false, loading: () => <p>Loading editor...</p> });
+const JoditEditor = dynamic(() => import('jodit-react'), { ssr: false, loading: () => <p>Carregando editor...</p> });
 
 export default function WritePage() {
   const editor = useRef(null);
@@ -12,7 +12,7 @@ export default function WritePage() {
   const [image, setImage] = useState<File | null>(null)
 
   const config = useMemo(() => ({
-    placeholder: 'Start typing your article content here...',
+    placeholder: 'Comece a digitar o conteúdo do seu artigo aqui...',
     theme: 'dark',
     minHeight: 300,
     uploader: {

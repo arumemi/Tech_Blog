@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { FaGithub, FaTwitter, FaLinkedin, FaEnvelope, FaHeart } from 'react-icons/fa'
+import { FaGithub, FaTwitter, FaLinkedin, FaEnvelope, FaHeart, FaFacebook } from 'react-icons/fa'
 
 export default function Footer() {
   return (
@@ -30,9 +30,14 @@ export default function Footer() {
                 className='p-2 bg-gray-800 hover:bg-blue-600 rounded-lg transition-colors duration-300'>
                 <FaLinkedin size={20} className='text-gray-300' />
               </a>
-              <a href='mailto:contact@esetech.com'
+              <a href='mailto:esefapohunda@gmail.com' target='blank' rel='noopener noreferrer'
                 className='p-2 bg-gray-800 hover:bg-blue-600 rounded-lg transition-colors duration-300'>
                 <FaEnvelope size={20} className='text-gray-300' />
+                
+              </a>
+              <a href='https://www.facebook.com/essi.faps.2025' target='_blank' rel='noopener noreferrer'
+                className='p-2 bg-gray-800 hover:bg-blue-600 rounded-lg transition-colors duration-300'>
+                <FaFacebook size={20} className='text-gray-300' />
               </a>
             </div>
           </div>
