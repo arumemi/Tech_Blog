@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Logo from './logo.jsx';
 import Link from 'next/link';
 import { useModalStore } from '@/app/store/useModalStore';
-
+import { authClient } from '@/lib/auth-client';
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -14,7 +14,8 @@ export default function Navbar() {
     { name: 'Início', href: '/' },
     { name: 'Sobre', href: '/about' },
   ];
-
+    const {data: session , isPending} = authClient.useSession();
+       
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-gray-900/80 border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
