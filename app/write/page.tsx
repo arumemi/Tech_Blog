@@ -1,9 +1,10 @@
 "use client";
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState, useEffect } from 'react'
 import ContainerLay from '@/PageLayout/ContainerLay'
 import dynamic from 'next/dynamic';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { authClient } from '@/lib/auth-client';
 
 const JoditEditor = dynamic(() => import('jodit-react'), { ssr: false, loading: () => <p>Carregando editor...</p> });
 
@@ -14,6 +15,8 @@ export default function WritePage() {
   const [excerpt, setExcerpt] = useState('')
   const [coverImage, setCoverImage] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const config = useMemo(() => ({
     placeholder: 'Comece a digitar o conteúdo do seu artigo aqui...',
@@ -23,6 +26,30 @@ export default function WritePage() {
       insertImageAsBase64URI: true,
     }
   }), []);
+
+  useEffect(() => {
+    let isActive = true;
+
+    const loadSession = async () => {
+      try {
+        const session = await authClient.getSession();
+        if (!isActive) return;
+        setIsAuthenticated(!!session.data?.user);
+      } catch (error) {
+        if (!isActive) return;
+        console.error('Erro ao verificar sessão:', error);
+        setIsAuthenticated(false);
+      } finally {
+        if (!isActive) return;
+        setIsCheckingSession(false);
+      }
+    };
+
+    loadSession();
+    return () => {
+      isActive = false;
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,7 +142,20 @@ export default function WritePage() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className='space-y-8'>
+        {isCheckingSession ? (
+          <div className='flex items-center justify-center py-16'>
+            <div className='w-8 h-8 border-3 border-blue-500 border-t-transparent rounded-full animate-spin' />
+            <span className='ml-3 text-gray-400'>Verificando sessão...</span>
+          </div>
+        ) : !isAuthenticated ? (
+          <div className='bg-gray-900/50 border border-gray-700 rounded-lg p-6 text-center'>
+            <h2 className='text-xl font-semibold text-white mb-2'>Acesso restrito</h2>
+            <p className='text-gray-400'>
+              Você precisa estar logado para criar um novo artigo.
+            </p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className='space-y-8'>
           {/* Title Input */}
           <div className='space-y-3'>
             <label htmlFor='title' className='block text-sm sm:text-base font-semibold text-gray-200'>
@@ -213,6 +253,7 @@ export default function WritePage() {
             </button>
           </div>
         </form>
+        )}
       </section>
     </ContainerLay>
   )
