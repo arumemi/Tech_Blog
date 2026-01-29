@@ -1,57 +1,109 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+import slugify from 'slugify';
+import { uploadToCloudinary } from '@/app/services/cloudinary';
 
-export async function GET(request: NextRequest) {
+/**
+ * POST /api/posts
+ * Creates a new blog post with image upload
+ * Requires authentication
+ * @param request - The incoming HTTP request with FormData containing post details and cover image
+ * @returns JSON response with created post data or error message
+ */
+export async function POST(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const limit = searchParams.get('limit') || '10';
+    // Verify user authentication
+    const session = await auth.api.getSession({
+      headers: await headers()
+    });
     
-    const posts = await prisma.post.findMany({
-      take: parseInt(limit),
-      orderBy: {
-        createdAt: 'desc',
+    if (!session || !session.user) {
+      return NextResponse.json(
+        { error: 'Não autorizado' }, 
+        { status: 401 }
+      );
+    }
+
+    // Extract form data from request
+    const formData = await request.formData();
+    const title = formData.get('title') as string;
+    const content = formData.get('content') as string;
+    const excerpt = formData.get('excerpt') as string;
+    const coverImage = formData.get('coverImage') as File;
+
+    // Validate required fields
+    if (!title || !content || !excerpt || !coverImage) {
+      return NextResponse.json(
+        { error: 'Campos obrigatórios faltando' }, 
+        { status: 400 }
+      );
+    }
+
+    // Generate slug from title
+    let slug = slugify(title, { 
+      lower: true, 
+      strict: true, 
+      trim: true 
+    });
+
+    // Ensure slug is unique by appending counter if necessary
+    let baseSlug = slug;
+    let counter = 1;
+    while (await prisma.post.findUnique({ where: { slug } })) {
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
+
+    // Upload cover image to Cloudinary
+    const imageData = await uploadToCloudinary(coverImage);
+
+    // Create new post in database
+    const newPost = await prisma.post.create({
+      data: {
+        title,
+        content,
+        excerpt,
+        slug,
+        coverImageURL: imageData.secure_url,
+        coverImagePublicId: imageData.public_id,
+        authorId: session.user.id,
       },
     });
 
-    return NextResponse.json(posts);
+    return NextResponse.json(newPost, { status: 201 });
   } catch (error) {
-    console.error('Error fetching posts:', error);
+    console.error('Erro ao criar post:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch posts' },
+      { error: 'Falha ao criar post' }, 
       { status: 500 }
     );
   }
 }
 
-export async function POST(request: NextRequest) {
+/**
+ * GET /api/posts
+ * Retrieves all blog posts ordered by creation date
+ * @returns JSON response with array of posts or error message
+ */
+export async function GET() {
   try {
-    const body = await request.json();
-    const { title, slug, content, excerpt, coverImageURL, coverImagePublicId, authorId } = body;
-
-    if (!title || !slug || !content || !authorId) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
-    }
-
-    const post = await prisma.post.create({
-      data: {
-        title,
-        slug,
-        content,
-        excerpt: excerpt || '',
-        coverImageURL: coverImageURL || '',
-        coverImagePublicId: coverImagePublicId || '',
-        authorId,
+    // Fetch all posts with author information
+    const posts = await prisma.post.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      include: {
+        author: true,
       },
     });
 
-    return NextResponse.json(post, { status: 201 });
+    return NextResponse.json(posts);
   } catch (error) {
-    console.error('Error creating post:', error);
+    console.error('Erro ao buscar posts:', error);
     return NextResponse.json(
-      { error: 'Failed to create post' },
+      { error: 'Falha ao buscar posts' }, 
       { status: 500 }
     );
   }

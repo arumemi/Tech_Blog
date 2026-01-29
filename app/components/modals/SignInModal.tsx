@@ -13,15 +13,51 @@ export default function SignInModal() {
   const [error, setError] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  const [loginProvider, setLoginProvider] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const session = await authClient.getSession();
-        setUser(session.data?.user || null);
+        console.log("Full session data:", session);
+        const userData = session.data?.user || null;
+        setUser(userData);
+        
+        // First, try to get provider from localStorage
+        const storedProvider = localStorage.getItem("loginProvider");
+        if (storedProvider) {
+          console.log("Provider from localStorage:", storedProvider);
+          setLoginProvider(storedProvider);
+        }
+        
+        // Detect login provider from session - try multiple approaches
+        if (session.data) {
+          // Log the full session structure to debug
+          console.log("Session data structure:", JSON.stringify(session.data, null, 2));
+          
+          // Try different ways to access provider info
+          const accounts = (session.data as any).user?.accounts;
+          const sessionAccounts = (session.data as any).accounts;
+          
+          console.log("Accounts from user:", accounts);
+          console.log("Accounts from session:", sessionAccounts);
+          
+          if (accounts && accounts.length > 0) {
+            const provider = accounts[0].providerId || accounts[0].provider;
+            console.log("Provider found:", provider);
+            setLoginProvider(provider);
+            localStorage.setItem("loginProvider", provider);
+          } else if (sessionAccounts && sessionAccounts.length > 0) {
+            const provider = sessionAccounts[0].providerId || sessionAccounts[0].provider;
+            console.log("Provider found from session:", provider);
+            setLoginProvider(provider);
+            localStorage.setItem("loginProvider", provider);
+          }
+        }
       } catch (err) {
         console.error("Error fetching user:", err);
         setUser(null);
+        setLoginProvider(null);
       } finally {
         setLoadingUser(false);
       }
@@ -36,14 +72,17 @@ export default function SignInModal() {
     try {
       setLoadingProvider("google");
       setError(null);
+      localStorage.setItem("loginProvider", "google");
       await authClient.signIn.social({
         provider: "google",
         callbackURL: "/",
       });
+      setLoginProvider("google");
       closeSignIn();
     } catch (err) {
       console.error("Google sign in error:", err);
       setError("Falha ao fazer login com Google. Tente novamente.");
+      localStorage.removeItem("loginProvider");
     } finally {
       setLoadingProvider(null);
     }
@@ -53,14 +92,17 @@ export default function SignInModal() {
     try {
       setLoadingProvider("github");
       setError(null);
+      localStorage.setItem("loginProvider", "github");
       await authClient.signIn.social({
         provider: "github",
         callbackURL: "/",
       });
+      setLoginProvider("github");
       closeSignIn();
     } catch (err) {
       console.error("GitHub sign in error:", err);
       setError("Falha ao fazer login com GitHub. Tente novamente.");
+      localStorage.removeItem("loginProvider");
     } finally {
       setLoadingProvider(null);
     }
@@ -71,6 +113,8 @@ export default function SignInModal() {
       setLoadingProvider("logout");
       await authClient.signOut();
       setUser(null);
+      setLoginProvider(null);
+      localStorage.removeItem("loginProvider");
       closeSignIn();
     } catch (err) {
       console.error("Logout error:", err);
@@ -91,8 +135,19 @@ export default function SignInModal() {
       ) : user ? (
         <div className="space-y-6">
           <div className="text-center">
-            <h2 className="text-xl font-semibold text-white mb-2">Bem-vindo!</h2>
+            <h2 className="text-xl font-semibold text-white mb-2">
+              {loginProvider === "github" && "Bem-vindo via GitHub!"}
+              {loginProvider === "google" && "Bem-vindo via Google!"}
+              {!loginProvider && "Bem-vindo!"}
+            </h2>
             <p className="text-green-400 text-sm font-medium mb-4">✓ LOGGED IN</p>
+            {loginProvider && (
+              <div className="flex items-center justify-center gap-2 text-gray-300 text-sm">
+                {loginProvider === "github" && <FaGithub className="text-lg" />}
+                {loginProvider === "google" && <FcGoogle className="text-lg" />}
+                <span>Conectado com {loginProvider === "github" ? "GitHub" : "Google"}</span>
+              </div>
+            )}
           </div>
 
           <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-blue-500/50 rounded-lg p-4">
