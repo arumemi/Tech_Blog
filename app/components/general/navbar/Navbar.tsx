@@ -1,20 +1,64 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Logo from './logo.jsx';
 import Link from 'next/link';
 import { useModalStore } from '@/app/store/useModalStore';
 import { authClient } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+
+interface SearchResult {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  coverImageURL: string | null;
+}
+
 export default function Navbar() {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
   const { openSignIn } = useModalStore();
 
   const navLinks = [
     { name: 'Início', href: '/' },
     { name: 'Sobre', href: '/about' },
   ];
-    const {data: session , isPending} = authClient.useSession();
+  const {data: session , isPending} = authClient.useSession();
+
+  // Debounced search effect
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      if (searchQuery.trim().length >= 2) {
+        setIsSearching(true);
+        try {
+          const response = await axios.get(`/api/posts/search?q=${encodeURIComponent(searchQuery)}&limit=5`);
+          setSearchResults(response.data.posts || []);
+        } catch (error) {
+          console.error('Search error:', error);
+          setSearchResults([]);
+        } finally {
+          setIsSearching(false);
+        }
+      } else {
+        setSearchResults([]);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const handleSearchResultClick = (slug: string) => {
+    setIsSearchOpen(false);
+    setSearchQuery('');
+    setSearchResults([]);
+    router.push(`/articles/${slug}`);
+  };
        
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-gray-900/80 border-b border-gray-800">
@@ -178,12 +222,14 @@ export default function Navbar() {
 
       {/* Barra de Busca Sobreposta */}
       {isSearchOpen && (
-        <div className="absolute top-full left-0 right-0 bg-gray-900/95 border-b border-gray-800 backdrop-blur-md">
+        <div className="absolute top-full left-0 right-0 bg-gray-900/95 border-b border-gray-800 backdrop-blur-md shadow-xl z-50">
           <div className="max-w-7xl mx-auto w-full px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4">
             <div className="relative">
               <input
                 type="text"
                 placeholder="Buscar artigos..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-gray-800 text-gray-300 placeholder-gray-500 rounded-lg pl-10 pr-4 py-2 sm:py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                 autoFocus
               />
@@ -191,7 +237,11 @@ export default function Navbar() {
                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               <button
-                onClick={() => setIsSearchOpen(false)}
+                onClick={() => {
+                  setIsSearchOpen(false);
+                  setSearchQuery('');
+                  setSearchResults([]);
+                }}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300"
               >
                 <svg className="h-5 w-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -199,6 +249,41 @@ export default function Navbar() {
                 </svg>
               </button>
             </div>
+
+            {/* Search Results */}
+            {searchQuery.trim().length >= 2 && (
+              <div className="mt-4 max-h-96 overflow-y-auto">
+                {isSearching ? (
+                  <div className="text-center py-4">
+                    <div className="inline-block w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-gray-400 text-sm mt-2">Buscando...</p>
+                  </div>
+                ) : searchResults.length > 0 ? (
+                  <div className="space-y-2">
+                    {searchResults.map((result) => (
+                      <button
+                        key={result.id}
+                        onClick={() => handleSearchResultClick(result.slug)}
+                        className="w-full text-left p-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors duration-200 group"
+                      >
+                        <h4 className="text-white font-medium group-hover:text-blue-400 transition-colors line-clamp-1">
+                          {result.title}
+                        </h4>
+                        {result.excerpt && (
+                          <p className="text-gray-400 text-sm mt-1 line-clamp-2">
+                            {result.excerpt}
+                          </p>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-4">
+                    <p className="text-gray-400 text-sm">Nenhum artigo encontrado</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}

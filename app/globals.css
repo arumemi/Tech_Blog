@@ -205,6 +205,19 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  overflow-x: hidden;
+}
+
+img,
+video,
+iframe,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
 /* Add parallax effect on scroll */
 @media (prefers-reduced-motion: no-preference) {
   * {

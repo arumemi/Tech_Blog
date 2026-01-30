@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { uploadToCloudinary } from '@/app/services/cloudinary';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 
 /**
  * GET /api/posts/[slug]
@@ -54,22 +57,88 @@ export async function PUT(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    // Verify user authentication
+    const session = await auth.api.getSession({
+      headers: await headers()
+    });
+    
+    if (!session || !session.user) {
+      return NextResponse.json(
+        { error: 'Não autorizado' }, 
+        { status: 401 }
+      );
+    }
+
     // Extract the slug from the dynamic route parameters
     const { slug } = await params;
-    // Parse the request body to get updated post data
-    const body = await request.json();
-    const { title, content, excerpt, coverImageURL, coverImagePublicId } = body;
+
+    // Check if post exists and verify ownership
+    const existingPost = await prisma.post.findUnique({
+      where: { slug },
+      select: { authorId: true },
+    });
+
+    if (!existingPost) {
+      return NextResponse.json(
+        { error: 'Post não encontrado' },
+        { status: 404 }
+      );
+    }
+
+    if (existingPost.authorId !== session.user.id) {
+      return NextResponse.json(
+        { error: 'Você não tem permissão para editar este artigo' },
+        { status: 403 }
+      );
+    }
+
+    const contentType = request.headers.get('content-type') || '';
+
+    let title: string | null = null;
+    let content: string | null = null;
+    let excerpt: string | null = null;
+    let coverImageURL: string | null = null;
+    let coverImagePublicId: string | null = null;
+    let coverImage: File | null = null;
+
+    if (contentType.includes('multipart/form-data')) {
+      const formData = await request.formData();
+      if (formData.has('title')) title = (formData.get('title') as string) ?? '';
+      if (formData.has('content')) content = (formData.get('content') as string) ?? '';
+      if (formData.has('excerpt')) excerpt = (formData.get('excerpt') as string) ?? '';
+      if (formData.has('coverImageURL')) coverImageURL = (formData.get('coverImageURL') as string) ?? null;
+      if (formData.has('coverImagePublicId')) coverImagePublicId = (formData.get('coverImagePublicId') as string) ?? null;
+      const file = formData.get('coverImage');
+      if (file instanceof File) {
+        coverImage = file;
+      }
+    } else {
+      const body = await request.json();
+      title = body.title ?? null;
+      content = body.content ?? null;
+      excerpt = body.excerpt ?? null;
+      coverImageURL = body.coverImageURL ?? null;
+      coverImagePublicId = body.coverImagePublicId ?? null;
+    }
+
+    const updateData: Record<string, unknown> = {};
+    if (title !== null) updateData.title = title;
+    if (content !== null) updateData.content = content;
+    if (excerpt !== null) updateData.excerpt = excerpt;
+
+    if (coverImage) {
+      const imageData = await uploadToCloudinary(coverImage);
+      updateData.coverImageURL = imageData.secure_url;
+      updateData.coverImagePublicId = imageData.public_id;
+    } else {
+      if (coverImageURL !== null) updateData.coverImageURL = coverImageURL;
+      if (coverImagePublicId !== null) updateData.coverImagePublicId = coverImagePublicId;
+    }
 
     // Update the post in the database with new data
     const post = await prisma.post.update({
       where: { slug },
-      data: {
-        title,
-        content,
-        excerpt,
-        coverImageURL,
-        coverImagePublicId,
-      },
+      data: updateData,
     });
 
     // Return the updated post data
@@ -97,8 +166,40 @@ export async function DELETE(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    // Verify user authentication
+    const session = await auth.api.getSession({
+      headers: await headers()
+    });
+    
+    if (!session || !session.user) {
+      return NextResponse.json(
+        { error: 'Não autorizado' }, 
+        { status: 401 }
+      );
+    }
+
     // Extract the slug from the dynamic route parameters
     const { slug } = await params;
+
+    // Check if post exists and verify ownership
+    const existingPost = await prisma.post.findUnique({
+      where: { slug },
+      select: { authorId: true },
+    });
+
+    if (!existingPost) {
+      return NextResponse.json(
+        { error: 'Post não encontrado' },
+        { status: 404 }
+      );
+    }
+
+    if (existingPost.authorId !== session.user.id) {
+      return NextResponse.json(
+        { error: 'Você não tem permissão para excluir este artigo' },
+        { status: 403 }
+      );
+    }
 
     // Delete the post from the database
     await prisma.post.delete({

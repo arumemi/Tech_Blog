@@ -8,6 +8,9 @@ import { useEffect, useState } from "react";
 import { notFound, useRouter } from "next/navigation";
 import { getPostsBySlug } from "@/app/server-actions/getPosts";
 import HomeButton from "@/app/components/general/HomeButton";
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { authClient } from '@/lib/auth-client';
 
 interface BlogViewProps {
   slug: string;
@@ -34,6 +37,10 @@ export default function BlogView({ slug }: BlogViewProps) {
   const [error, setError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
+  const { data: session } = authClient.useSession();
+
+  // Check if current user is the author
+  const isAuthor = session?.user?.id === post?.author.id;
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -70,13 +77,29 @@ export default function BlogView({ slug }: BlogViewProps) {
 
     try {
       setIsDeleting(true);
-      // TODO: Implement delete functionality
-      // const response = await deletePost(post.id);
-      alert("Funcionalidade de exclusão em breve!");
-      // router.push("/articles");
+      
+      await axios.delete(`/api/posts/${post.slug}`);
+      
+      toast.success('Artigo excluído com sucesso!', {
+        duration: 3000,
+        style: {
+          background: '#10b981',
+          color: '#fff',
+        },
+      });
+      
+      setTimeout(() => {
+        router.push("/articles");
+      }, 1000);
     } catch (err) {
       console.error("Error deleting post:", err);
-      alert("Falha ao excluir artigo. Por favor, tente novamente.");
+      toast.error('Falha ao excluir artigo. Por favor, tente novamente.', {
+        duration: 4000,
+        style: {
+          background: '#ef4444',
+          color: '#fff',
+        },
+      });
     } finally {
       setIsDeleting(false);
     }
@@ -208,23 +231,25 @@ export default function BlogView({ slug }: BlogViewProps) {
             <span>Voltar aos Artigos</span>
           </Link>
 
-          <div className="flex gap-3">
-            <Link
-              href={`/write?slug=${post.slug}`}
-              className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-blue-500/50 hover:scale-105"
-            >
-              <FaPen size={16} className="group-hover:rotate-12 transition-transform duration-300" />
-              <span>Editar Artigo</span>
-            </Link>
-            <button
-              onClick={handleDelete}
-              disabled={isDeleting}
-              className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-red-500/50 hover:scale-105 disabled:scale-100"
-            >
-              <LuTrash size={16} className="group-hover:rotate-12 transition-transform duration-300" />
-              <span>{isDeleting ? "Excluindo..." : "Excluir"}</span>
-            </button>
-          </div>
+          {isAuthor && (
+            <div className="flex gap-3">
+              <Link
+                href={`/write/edit/${post.slug}`}
+                className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-blue-500/50 hover:scale-105"
+              >
+                <FaPen size={16} className="group-hover:rotate-12 transition-transform duration-300" />
+                <span>Editar Artigo</span>
+              </Link>
+              <button
+                onClick={handleDelete}
+                disabled={isDeleting}
+                className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-red-500/50 hover:scale-105 disabled:scale-100"
+              >
+                <LuTrash size={16} className="group-hover:rotate-12 transition-transform duration-300" />
+                <span>{isDeleting ? "Excluindo..." : "Excluir"}</span>
+              </button>
+            </div>
+          )}
         </div>
         
         {/* Home Button - Bottom */}
