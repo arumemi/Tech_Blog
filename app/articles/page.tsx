@@ -5,6 +5,77 @@ import ContainerLay from "@/PageLayout/ContainerLay";
 import Image from "next/image";
 import Link from "next/link";
 
+// Dramatic Loading Skeleton
+const SkeletonCard = ({ index }: { index: number }) => (
+  <div
+    className="group relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl overflow-hidden shadow-xl border border-gray-700 animate-pulse"
+    style={{ animationDelay: `${index * 150}ms` }}
+  >
+    {/* Skeleton Badge */}
+    <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
+      <div className="bg-gray-700 h-6 w-12 rounded-full"></div>
+      <div className="bg-gray-700 h-6 w-20 rounded-full"></div>
+    </div>
+
+    {/* Skeleton Image */}
+    <div className="relative w-full h-56 sm:h-64 bg-gradient-to-r from-gray-800 to-gray-700 animate-shimmer overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-loading-shimmer"></div>
+    </div>
+
+    {/* Skeleton Content */}
+    <div className="p-6 space-y-4">
+      <div className="h-6 bg-gray-700 rounded-lg w-3/4 animate-pulse"></div>
+      <div className="h-4 bg-gray-700 rounded-lg w-full animate-pulse animation-delay-100"></div>
+      <div className="h-4 bg-gray-700 rounded-lg w-5/6 animate-pulse animation-delay-200"></div>
+      <div className="h-8 bg-gray-700 rounded-lg w-40 mt-4 animate-pulse animation-delay-300"></div>
+    </div>
+
+    {/* Shimmer Effect */}
+    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-loading-shimmer"></div>
+  </div>
+);
+
+// Loading State Component
+const ArticlesLoading = () => (
+  <ContainerLay>
+    <div className="space-y-8 sm:space-y-10 md:space-y-12">
+      {/* Header Skeleton */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800 p-8 sm:p-10 md:p-12 lg:p-16 mt-6">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-loading-shimmer"></div>
+        <div className="relative z-10 space-y-4">
+          <div className="h-12 bg-gray-700 rounded-lg w-3/4 animate-pulse"></div>
+          <div className="h-6 bg-gray-700 rounded-lg w-full animate-pulse animation-delay-100"></div>
+          <div className="h-6 bg-gray-700 rounded-lg w-2/3 animate-pulse animation-delay-200"></div>
+          <div className="flex flex-wrap gap-3 mt-6">
+            <div className="h-10 bg-gray-700 rounded-full w-24 animate-pulse animation-delay-300"></div>
+            <div className="h-10 bg-gray-700 rounded-full w-28 animate-pulse animation-delay-400"></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Articles Grid Skeleton */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {[0, 1, 2].map((index) => (
+          <SkeletonCard key={index} index={index} />
+        ))}
+      </div>
+
+      {/* Dramatic Loading Text */}
+      <div className="text-center py-12 animate-fade-in">
+        <div className="flex items-center justify-center gap-2 text-lg sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 animate-pulse">
+          <span className="animate-bounce" style={{ animationDelay: "0s" }}>🚀</span>
+          <span className="animate-bounce" style={{ animationDelay: "0.2s" }}>
+            Carregando artigos épicos...
+          </span>
+          <span className="animate-bounce" style={{ animationDelay: "0.4s" }}>
+            ⚡
+          </span>
+        </div>
+      </div>
+    </div>
+  </ContainerLay>
+);
+
 const rawImages = [
   {
     file: "container.jpeg",
@@ -130,12 +201,20 @@ const articles = rawImages.map((item, index) => {
 export default function ArticlesPage() {
   const INITIAL_VISIBLE = 3;
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
+  const [isLoading, setIsLoading] = useState(false);
 
   const visibleArticles = articles.slice(0, visibleCount);
   const canLoadMore = visibleCount < articles.length;
 
   const handleLoadMore = () => {
-    setVisibleCount((count) => Math.min(count + 3, articles.length));
+    setIsLoading(true);
+    // Simulate dramatic loading delay
+    const timer = setTimeout(() => {
+      setVisibleCount((count) => Math.min(count + 3, articles.length));
+      setIsLoading(false);
+    }, 1200);
+    
+    return () => clearTimeout(timer);
   };
 
   return (
@@ -147,7 +226,7 @@ export default function ArticlesPage() {
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-500/20 rounded-full blur-2xl"></div>
           <div className="relative z-10">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 animate-slide-down">
-              📚  Escolha um assunto que você ache interessante
+              📚 Escolha um assunto que você ache interessante
             </h1>
             <p className="text-gray-100 text-base sm:text-lg md:text-xl max-w-2xl animate-slide-up animation-delay-200">
               Explore nossa coleção completa de artigos sobre tecnologia,
@@ -166,89 +245,106 @@ export default function ArticlesPage() {
 
         {/* Articles Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 animate-fade-in-up animation-delay-300">
-          {visibleArticles.map((post, index) => {
-            return (
-              <article
-                key={post.id}
-                className="group relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-500 hover:scale-[1.02] border border-gray-700 hover:border-blue-500/50"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                {/* Badge */}
-                <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
-                  <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg backdrop-blur-sm">
-                    #{post.id}
-                  </span>
-                  <span className="bg-black/50 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full border border-white/20">
-                    {post.category}
-                  </span>
-                </div>
-
-                {/* Image */}
-                <div className="relative w-full h-56 sm:h-64 overflow-hidden">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    className="object-cover group-hover:scale-110 group-hover:rotate-1 transition-all duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent opacity-80"></div>
-
-                  {/* Read Time Badge on Image */}
-                  <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-white/10 backdrop-blur-md px-3 py-2 rounded-full border border-white/20">
-                    <span className="text-xl">⏱️</span>
-                    <span className="text-white text-xs font-semibold">
-                      {post.readTime}
+          {isLoading ? (
+            [0, 1, 2].map((index) => (
+              <SkeletonCard key={`skeleton-${index}`} index={index} />
+            ))
+          ) : (
+            visibleArticles.map((post, index) => {
+              return (
+                <article
+                  key={`article-${post.id}`}
+                  className="group relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-500 hover:scale-[1.02] border border-gray-700 hover:border-blue-500/50 animate-scale-in"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  {/* Badge */}
+                  <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
+                    <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg backdrop-blur-sm">
+                      #{post.id}
+                    </span>
+                    <span className="bg-black/50 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full border border-white/20">
+                      {post.category}
                     </span>
                   </div>
-                </div>
 
-                {/* Content */}
-                <div className="p-6">
-                  <h2 className="text-xl sm:text-2xl font-bold leading-tight group-hover:text-blue-400 transition-colors text-gray-100 mb-3 line-clamp-2 min-h-[3.5rem]">
-                    {post.title}
-                  </h2>
+                  {/* Image */}
+                  <div className="relative w-full h-56 sm:h-64 overflow-hidden">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      className="object-cover group-hover:scale-110 group-hover:rotate-1 transition-all duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent opacity-80"></div>
 
-                  <p className="text-gray-400 mb-4 text-sm sm:text-base leading-relaxed line-clamp-3">
-                    {post.excerpt}
-                  </p>
+                    {/* Read Time Badge on Image */}
+                    <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-white/10 backdrop-blur-md px-3 py-2 rounded-full border border-white/20">
+                      <span className="text-xl">⏱️</span>
+                      <span className="text-white text-xs font-semibold">
+                        {post.readTime}
+                      </span>
+                    </div>
+                  </div>
 
-                  {/* Read More Link */}
-                  <Link
-                    href={`/articles/${post.slug}`}
-                    className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm font-semibold group/link transition-all"
-                  >
-                    <span>Ler Artigo Completo</span>
-                    <svg
-                      className="w-4 h-4 group-hover/link:translate-x-2 transition-transform"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
+                  {/* Content */}
+                  <div className="p-6">
+                    <h2 className="text-xl sm:text-2xl font-bold leading-tight group-hover:text-blue-400 transition-colors text-gray-100 mb-3 line-clamp-2 min-h-[3.5rem]">
+                      {post.title}
+                    </h2>
+
+                    <p className="text-gray-400 mb-4 text-sm sm:text-base leading-relaxed line-clamp-3">
+                      {post.excerpt}
+                    </p>
+
+                    {/* Read More Link */}
+                    <Link
+                      href={`/articles/${post.slug}`}
+                      className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm font-semibold group/link transition-all"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                      />
-                    </svg>
-                  </Link>
-                </div>
-                {/* Footer */}
+                      <span>Ler Artigo Completo</span>
+                      <svg
+                        className="w-4 h-4 group-hover/link:translate-x-2 transition-transform"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13 7l5 5m0 0l-5 5m5-5H6"
+                        />
+                      </svg>
+                    </Link>
+                  </div>
+                  {/* Footer */}
 
-                {/* Hover Effect Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none"></div>
-              </article>
-            );
-          })}
+                  {/* Hover Effect Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none"></div>
+                </article>
+              );
+            })
+          )}
         </div>
         {/**load more btn */}
         {canLoadMore && (
           <div className="flex justify-center mt-10">
             <button
               onClick={handleLoadMore}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-blue-500/50 hover:scale-105 cursor-pointer"
+              disabled={isLoading}
+              className="relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold rounded-full transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-purple-500/50 hover:scale-110 disabled:scale-100 disabled:cursor-not-allowed disabled:shadow-none text-lg"
             >
-              Carregar Mais Artigos
+              {isLoading ? (
+                <span className="flex items-center gap-2">
+                  <span className="inline-block animate-spin">⚙️</span>
+                  Preparando para o grande reveal...
+                </span>
+              ) : (
+                <span className="flex items-center gap-2">
+                  <span>🎬 Carregar Mais Artigos Épicos</span>
+                  <span className="animate-bounce">✨</span>
+                </span>
+              )}
             </button>
           </div>
         )}
