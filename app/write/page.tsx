@@ -1,15 +1,12 @@
 "use client";
-import React, { useMemo, useRef, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import ContainerLay from '@/PageLayout/ContainerLay'
-import dynamic from 'next/dynamic';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { authClient } from '@/lib/auth-client';
-
-const JoditEditor = dynamic(() => import('jodit-react'), { ssr: false, loading: () => <p>Carregando editor...</p> });
+import HomeButton from '@/app/components/general/HomeButton';
 
 export default function WritePage() {
-  const editor = useRef(null);
   const [content, setContent] = useState('')
   const [title, setTitle] = useState('')
   const [excerpt, setExcerpt] = useState('')
@@ -17,15 +14,6 @@ export default function WritePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCheckingSession, setIsCheckingSession] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const config = useMemo(() => ({
-    placeholder: 'Comece a digitar o conteúdo do seu artigo aqui...',
-    theme: 'dark',
-    minHeight: 300,
-    uploader: {
-      insertImageAsBase64URI: true,
-    }
-  }), []);
 
   useEffect(() => {
     let isActive = true;
@@ -132,6 +120,10 @@ export default function WritePage() {
   return (
     <ContainerLay>
       <section className='max-w-4xl mx-auto py-12 sm:py-16 lg:py-20 px-4 sm:px-6'>
+        {/* Home Button - Top */}
+        <div className='mb-8'>
+          <HomeButton />
+        </div>
         {/* Header */}
         <div className='mb-12 animate-fade-in'>
           <h1 className='text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4'>
@@ -254,6 +246,11 @@ export default function WritePage() {
           </div>
         </form>
         )}
+        
+        {/* Home Button - Bottom */}
+        <div className='mt-12 flex justify-center'>
+          <HomeButton />
+        </div>
       </section>
     </ContainerLay>
   )

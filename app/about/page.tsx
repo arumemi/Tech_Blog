@@ -2,11 +2,16 @@ import ContainerLay from '@/PageLayout/ContainerLay'
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import HomeButton from '@/app/components/general/HomeButton'
 
 export default function AboutPage() {
   return (
    <ContainerLay>
       <div className='px-4 sm:px-12 py-8 sm:py-12'>
+        {/* Home Button - Top */}
+        <div className='mb-8'>
+          <HomeButton />
+        </div>
         {/* Hero Section */}
         <div className='text-center mb-16 animate-fade-in'>
           <h1 className='text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6'>
@@ -121,6 +126,11 @@ export default function AboutPage() {
              Explorar Artigos
             </Link>
           </div>
+        </div>
+        
+        {/* Home Button - Bottom */}
+        <div className='mt-12 flex justify-center'>
+          <HomeButton />
         </div>
       </div>
    </ContainerLay>

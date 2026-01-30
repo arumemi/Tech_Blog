@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
         coverImageURL: true,
         createdAt: true,
       },
-      take: 6,
+      take: limit,
     });
 
     return NextResponse.json(recentPosts, { status: 200 });

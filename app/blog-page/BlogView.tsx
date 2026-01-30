@@ -7,6 +7,7 @@ import { LuTrash } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import { notFound, useRouter } from "next/navigation";
 import { getPostsBySlug } from "@/app/server-actions/getPosts";
+import HomeButton from "@/app/components/general/HomeButton";
 
 interface BlogViewProps {
   slug: string;
@@ -123,6 +124,10 @@ export default function BlogView({ slug }: BlogViewProps) {
   return (
     <div>
       <article className="max-w-4xl mx-auto py-12 md:py-20 px-4 sm:px-6">
+        {/* Home Button - Top */}
+        <div className='mb-8'>
+          <HomeButton />
+        </div>
         {/* Back Button */}
         <div className="mb-8">
           <Link
@@ -220,6 +225,11 @@ export default function BlogView({ slug }: BlogViewProps) {
               <span>{isDeleting ? "Excluindo..." : "Excluir"}</span>
             </button>
           </div>
+        </div>
+        
+        {/* Home Button - Bottom */}
+        <div className='mt-12 flex justify-center'>
+          <HomeButton />
         </div>
       </article>
     </div>

@@ -84,26 +84,62 @@ export async function POST(request: NextRequest) {
 
 /**
  * GET /api/posts
- * Retrieves all blog posts ordered by creation date
- * @returns JSON response with array of posts or error message
+ * Retrieves blog posts with pagination support
+ * Query params: page (default 1), limit (default 9)
+ * @returns JSON response with posts array and pagination info
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    // Fetch all posts with author information
-    const posts = await prisma.post.findMany({
-      orderBy: {
-        createdAt: 'desc',
-      },
-      include: {
-        author: true,
+    const searchParams = request.nextUrl.searchParams;
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "9");
+    const skip = (page - 1) * limit;
+
+    // Fetch posts with pagination
+    const [posts, totalCount] = await Promise.all([
+      prisma.post.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          excerpt: true,
+          coverImageURL: true,
+          createdAt: true,
+          author: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
+        skip,
+        take: limit,
+      }),
+      prisma.post.count(),
+    ]);
+
+    const hasMore = skip + posts.length < totalCount;
+    const nextPage = hasMore ? page + 1 : null;
+
+    return NextResponse.json({
+      posts,
+      pagination: {
+        page,
+        limit,
+        totalCount,
+        totalPages: Math.ceil(totalCount / limit),
+        hasMore,
+        nextPage,
       },
     });
-
-    return NextResponse.json(posts);
   } catch (error) {
-    console.error('Erro ao buscar posts:', error);
+    console.error("Erro ao buscar posts:", error);
     return NextResponse.json(
-      { error: 'Falha ao buscar posts' }, 
+      { error: "Falha ao buscar posts" },
       { status: 500 }
     );
   }
