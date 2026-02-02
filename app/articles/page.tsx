@@ -36,7 +36,7 @@ interface PostsResponse {
 // Dramatic Loading Skeleton
 const SkeletonCard = ({ index }: { index: number }) => (
   <div
-    className="group relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl overflow-hidden shadow-xl border border-gray-700 animate-pulse"
+    className="group relative bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl overflow-hidden shadow-xl border border-gray-700 animate-pulse"
     style={{ animationDelay: `${index * 150}ms` }}
   >
     {/* Skeleton Badge */}
@@ -46,8 +46,8 @@ const SkeletonCard = ({ index }: { index: number }) => (
     </div>
 
     {/* Skeleton Image */}
-    <div className="relative w-full h-56 sm:h-64 bg-gradient-to-r from-gray-800 to-gray-700 animate-shimmer overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-loading-shimmer"></div>
+    <div className="relative w-full h-56 sm:h-64 bg-linear-to-r from-gray-800 to-gray-700 animate-shimmer overflow-hidden">
+      <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent animate-loading-shimmer"></div>
     </div>
 
     {/* Skeleton Content */}
@@ -59,7 +59,7 @@ const SkeletonCard = ({ index }: { index: number }) => (
     </div>
 
     {/* Shimmer Effect */}
-    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-loading-shimmer"></div>
+    <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent animate-loading-shimmer"></div>
   </div>
 );
 
@@ -68,8 +68,8 @@ const ArticlesLoading = () => (
   <ContainerLay>
     <div className="space-y-8 sm:space-y-10 md:space-y-12">
       {/* Header Skeleton */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800 p-8 sm:p-10 md:p-12 lg:p-16 mt-6">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-loading-shimmer"></div>
+      <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-gray-800 via-gray-700 to-gray-800 p-8 sm:p-10 md:p-12 lg:p-16 mt-6">
+        <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent animate-loading-shimmer"></div>
         <div className="relative z-10 space-y-4">
           <div className="h-12 bg-gray-700 rounded-lg w-3/4 animate-pulse"></div>
           <div className="h-6 bg-gray-700 rounded-lg w-full animate-pulse animation-delay-100"></div>
@@ -90,7 +90,7 @@ const ArticlesLoading = () => (
 
       {/* Dramatic Loading Text */}
       <div className="text-center py-12 animate-fade-in">
-        <div className="flex items-center justify-center gap-2 text-lg sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 animate-pulse">
+        <div className="flex items-center justify-center gap-2 text-lg sm:text-2xl font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-400 via-purple-400 to-pink-400 animate-pulse">
           <span className="animate-bounce" style={{ animationDelay: "0s" }}>🚀</span>
           <span className="animate-bounce" style={{ animationDelay: "0.2s" }}>
             Carregando artigos épicos...
@@ -155,7 +155,7 @@ export default function ArticlesPage() {
           <HomeButton />
         </div>
         {/* Header Section */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-purple-600 to-blue-600 p-8 sm:p-10 md:p-12 lg:p-16 mt-6 animate-fade-in">
+        <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-blue-600 via-purple-600 to-blue-600 p-8 sm:p-10 md:p-12 lg:p-16 mt-6 animate-fade-in">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse-slow"></div>
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-500/20 rounded-full blur-2xl"></div>
           <div className="relative z-10">
@@ -192,12 +192,12 @@ export default function ArticlesPage() {
             return (
               <article
                 key={`article-${post.id}`}
-                className="group relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-500 hover:scale-[1.02] border border-gray-700 hover:border-blue-500/50 animate-scale-in"
+                className="group relative bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-500 hover:scale-[1.02] border border-gray-700 hover:border-blue-500/50 animate-scale-in"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Badge */}
                 <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
-                  <span className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg backdrop-blur-sm">
+                  <span className="bg-linear-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg backdrop-blur-sm">
                     #{index + 1}
                   </span>
                 </div>
@@ -210,7 +210,7 @@ export default function ArticlesPage() {
                     fill
                     className="object-cover group-hover:scale-110 group-hover:rotate-1 transition-all duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent opacity-80"></div>
+                  <div className="absolute inset-0 bg-linear-to-t from-gray-900 via-gray-900/50 to-transparent opacity-80"></div>
 
                   {/* Date Badge on Image */}
                   <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-white/10 backdrop-blur-md px-3 py-2 rounded-full border border-white/20">
@@ -223,7 +223,7 @@ export default function ArticlesPage() {
 
                 {/* Content */}
                 <div className="p-6">
-                  <h2 className="text-xl sm:text-2xl font-bold leading-tight group-hover:text-blue-400 transition-colors text-gray-100 mb-3 line-clamp-2 min-h-[3.5rem]">
+                  <h2 className="text-xl sm:text-2xl font-bold leading-tight group-hover:text-blue-400 transition-colors text-gray-100 mb-3 line-clamp-2 min-h-14">
                     {post.title}
                   </h2>
 
@@ -242,7 +242,7 @@ export default function ArticlesPage() {
                         className="rounded-full"
                       />
                     ) : (
-                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-500"></div>
+                      <div className="w-6 h-6 rounded-full bg-linear-to-br from-blue-500 to-purple-500"></div>
                     )}
                     <span className="text-gray-400 text-xs">
                       Por {post.author.name || "Autor Desconhecido"}
@@ -272,7 +272,7 @@ export default function ArticlesPage() {
                 </div>
 
                 {/* Hover Effect Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-linear-to-tr from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none"></div>
               </article>
             );
           })}
@@ -290,7 +290,7 @@ export default function ArticlesPage() {
             <button
               onClick={() => fetchNextPage()}
               disabled={isFetchingNextPage}
-              className="relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold rounded-full transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-purple-500/50 hover:scale-110 disabled:scale-100 disabled:cursor-not-allowed disabled:shadow-none text-lg"
+              className="relative px-8 py-4 bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold rounded-full transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-purple-500/50 hover:scale-110 disabled:scale-100 disabled:cursor-not-allowed disabled:shadow-none text-lg"
             >
               {isFetchingNextPage ? (
                 <span className="flex items-center gap-2">
@@ -308,7 +308,7 @@ export default function ArticlesPage() {
         )}
 
         {/* Newsletter Section */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 p-8 sm:p-10 md:p-12 border border-blue-500/30 animate-fade-in-up">
+        <div className="relative overflow-hidden rounded-2xl bg-linear-to-r from-gray-900 via-blue-900 to-purple-900 p-8 sm:p-10 md:p-12 border border-blue-500/30 animate-fade-in-up">
           <div className="absolute top-0 right-0 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"></div>
           <div className="relative z-10 text-center max-w-2xl mx-auto">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
@@ -324,7 +324,7 @@ export default function ArticlesPage() {
                 placeholder="seu@email.com"
                 className="px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 flex-1 max-w-md"
               />
-              <button className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-blue-600 text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-blue-500/50 hover:scale-105">
+              <button className="px-8 py-3 bg-linear-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-blue-600 text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-blue-500/50 hover:scale-105">
                 Inscrever-se
               </button>
             </div>

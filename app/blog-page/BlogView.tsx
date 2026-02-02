@@ -176,7 +176,7 @@ export default function BlogView({ slug }: BlogViewProps) {
 
         {/* Featured Image */}
         {post.coverImageURL && (
-          <div className="relative w-full h-64 sm:h-80 lg:h-[420px] mb-12 rounded-2xl overflow-hidden shadow-xl border border-gray-700">
+          <div className="relative w-full h-64 sm:h-80 lg:h-105 mb-12 rounded-2xl overflow-hidden shadow-xl border border-gray-700">
             <Image
               src={post.coverImageURL}
               alt={post.title}
@@ -196,7 +196,7 @@ export default function BlogView({ slug }: BlogViewProps) {
         </div>
 
         {/* Author Section */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 bg-gradient-to-r from-gray-900/50 to-blue-900/20 rounded-xl border border-gray-700 mt-12">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 bg-linear-to-r from-gray-900/50 to-blue-900/20 rounded-xl border border-gray-700 mt-12">
           <div className="flex items-center gap-3">
             {post.author.image ? (
               <Image
@@ -207,7 +207,7 @@ export default function BlogView({ slug }: BlogViewProps) {
                 className="w-12 h-12 rounded-full object-cover"
               />
             ) : (
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500"></div>
+              <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-purple-500"></div>
             )}
             <div>
               <p className="text-white font-semibold">{post.author.name || "Autor Desconhecido"}</p>
@@ -235,7 +235,7 @@ export default function BlogView({ slug }: BlogViewProps) {
             <div className="flex gap-3">
               <Link
                 href={`/write/edit/${post.slug}`}
-                className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-blue-500/50 hover:scale-105"
+                className="group inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-blue-500/50 hover:scale-105"
               >
                 <FaPen size={16} className="group-hover:rotate-12 transition-transform duration-300" />
                 <span>Editar Artigo</span>
@@ -243,7 +243,7 @@ export default function BlogView({ slug }: BlogViewProps) {
               <button
                 onClick={handleDelete}
                 disabled={isDeleting}
-                className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-red-500/50 hover:scale-105 disabled:scale-100"
+                className="group inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 disabled:from-gray-600 disabled:to-gray-600 text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-red-500/50 hover:scale-105 disabled:scale-100"
               >
                 <LuTrash size={16} className="group-hover:rotate-12 transition-transform duration-300" />
                 <span>{isDeleting ? "Excluindo..." : "Excluir"}</span>

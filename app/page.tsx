@@ -98,6 +98,7 @@ function MainContent() {
 
 export default function Home() {
   return (
+    
     <ContainerLay>
       <MainContent />
     </ContainerLay>
