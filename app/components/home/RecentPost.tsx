@@ -24,7 +24,7 @@ export default async function RecentPost() {
   const headersList = await headers();
   const host = headersList.get("host");
   const protocol = headersList.get("x-forwarded-proto") ?? "http";
-  const baseUrl = host ? `${protocol}://${host}` : "http://localhost:3000";
+  const baseUrl = host ? `${protocol}://${host}` : "https://tech-blog-i77h-5eu5ojvnm-ese-fapohundas-projects.vercel.app";
 
   const response = await fetch(`${baseUrl}/api/posts/recent?limit=3`, {
     cache: "no-store"
