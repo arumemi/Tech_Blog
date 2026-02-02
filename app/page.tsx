@@ -86,10 +86,10 @@ export default function Home() {
         </div>
 
         {/* Features Section */}
+        <Suspense fallback={<div className="flex items-center justify-center py-12"><div className="text-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div><p className="text-gray-400">Carregando publicações recentes...</p></div></div>}>
+          <RecentPost />
+        </Suspense>
       </div>
-      <Suspense fallback={<div className="flex items-center justify-center py-12"><div className="text-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div><p className="text-gray-400">Carregando publicações recentes...</p></div></div>}>
-      <RecentPost />
-      </Suspense>
     </ContainerLay>
   );
 }
