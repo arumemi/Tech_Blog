@@ -1,6 +1,6 @@
 import ContainerLay from "@/PageLayout/ContainerLay";
 import Image from "next/image";
-import RecentPost from "@/app/components/home/RecentPost";
+import RecentPost from "../app/components/home/RecentPost";
 import { Suspense } from "react";
 
 export default function Home() {
