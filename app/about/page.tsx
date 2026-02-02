@@ -18,7 +18,7 @@ export default function AboutPage() {
             Sobre <span className='text-blue-500'>Tech Blog</span>
           </h1>
           <p className='text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed'>
-            Um blog moderno dedicado ao desenvolvimento real e engenharia reflexiva
+            Um blog moderno dedicado ao desenvolvimento real e engenharia reflexiva.
           </p>
         </div>
 
