@@ -1,8 +1,9 @@
 import Image  from "next/image";
 import { Suspense } from "react";
-import RecentPost from "./components/home/RecentPost";
+
 import React from "react";
 import ContainerLay from "@/PageLayout/ContainerLay";
+import RecentPost  from "./components/home/RecentPost";
 
 
 
@@ -99,6 +100,7 @@ function MainContent() {
 export default function Home() {
   return (
     
+
     <ContainerLay>
       <MainContent />
     </ContainerLay>
