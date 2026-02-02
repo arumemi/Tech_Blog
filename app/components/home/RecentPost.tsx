@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { headers } from "next/headers";
 import { Post } from "@/app/types/post";
 
 function formatDate(dateString: string): string {
@@ -21,12 +20,7 @@ function calculateReadTime(excerpt: string | null): string {
 }
 
 export default async function RecentPost() {
-  const headersList = await headers();
-  const host = headersList.get("host");
-  const protocol = headersList.get("x-forwarded-proto") ?? "http";
-  const baseUrl = host ? `${protocol}://${host}` : "https://tech-blog-i77h-5eu5ojvnm-ese-fapohundas-projects.vercel.app";
-
-  const response = await fetch(`${baseUrl}/api/posts/recent?limit=3`, {
+  const response = await fetch(`/api/posts/recent?limit=3`, {
     cache: "no-store"
   });
   if (!response.ok) {
