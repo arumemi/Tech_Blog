@@ -38,7 +38,7 @@ export default async function RecentPost() {
           return (
             <div
               key={post.id}
-              className="group relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-lg sm:rounded-xl overflow-hidden shadow-lg sm:shadow-xl hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-500 md:hover:scale-105 border border-gray-700 hover:border-blue-500/50"
+              className="group relative bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 rounded-lg sm:rounded-xl overflow-hidden shadow-lg sm:shadow-xl hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-500 md:hover:scale-105 border border-gray-700 hover:border-blue-500/50"
             >
               <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10 bg-blue-500 text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 sm:px-3 sm:py-1 rounded-full shadow-lg">
                 #{index + 1}
@@ -50,7 +50,7 @@ export default async function RecentPost() {
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-gray-900 via-transparent to-transparent opacity-60"></div>
               </div>
               <div className="p-4 sm:p-5 md:p-6">
                 <div className="inline-block text-[10px] sm:text-xs text-blue-400 font-semibold mb-2 px-2 sm:px-3 py-0.5 sm:py-1 bg-blue-500/10 rounded-full border border-blue-500/30">

@@ -26,7 +26,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
             {/* Image Section */}
             <div className="order-1 lg:order-1 w-full animate-slide-in-left animation-delay-700">
-              <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-2xl hover:shadow-blue-500/30 transition-all duration-500">
+              <div className="relative w-full aspect-4/3 rounded-xl overflow-hidden shadow-2xl hover:shadow-blue-500/30 transition-all duration-500">
                 <Image
                   src="/image for blog/working_lady.jpg"
                   alt="Ilustração do Blog Tech - Profissional trabalhando com tecnologia"
@@ -39,12 +39,12 @@ export default function Home() {
             </div>
             {/* Text Content Section */}
             <div className="order-2 lg:order-2 space-y-6 animate-slide-in-right animation-delay-700">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-blue-500/50 rounded-full px-4 py-2 shadow-lg shadow-blue-500/20">
+              <div className="inline-flex items-center gap-2 bg-linear-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-blue-500/50 rounded-full px-4 py-2 shadow-lg shadow-blue-500/20">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                 </span>
-                <span className="text-xs sm:text-sm uppercase tracking-widest font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                <span className="text-xs sm:text-sm uppercase tracking-widest font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                   Descubra. Aprenda. Inove.
                 </span>
               </div>
