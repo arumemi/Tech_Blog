@@ -1,11 +1,14 @@
-import ContainerLay from "@/PageLayout/ContainerLay";
-import Image from "next/image";
-import RecentPost from "./components/home/RecentPost";
+import Image  from "next/image";
 import { Suspense } from "react";
+import RecentPost from "./components/home/RecentPost";
+import React from "react";
+import ContainerLay from "@/PageLayout/ContainerLay";
 
-export default function Home() {
+
+
+
+function MainContent() {
   return (
-    <ContainerLay>
       <div className="space-y-12 md:space-y-16 lg:space-y-20">
         {/* Hero Section */}
         <div className="text-center px-4 py-6 md:py-8 animate-fade-in">
@@ -90,6 +93,13 @@ export default function Home() {
           <RecentPost />
         </Suspense>
       </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <ContainerLay>
+      <MainContent />
     </ContainerLay>
   );
 }

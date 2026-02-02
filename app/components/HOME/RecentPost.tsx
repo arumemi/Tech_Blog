@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { headers } from "next/headers";
 import { Post } from "@/app/types/post";
 
 function formatDate(dateString: string): string {
@@ -20,7 +21,11 @@ function calculateReadTime(excerpt: string | null): string {
 }
 
 export default async function RecentPost() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const headersList = await headers();
+  const host = headersList.get("host");
+  const protocol = headersList.get("x-forwarded-proto") ?? "http";
+  const baseUrl = host ? `${protocol}://${host}` : "http://localhost:3000";
+
   const response = await fetch(`${baseUrl}/api/posts/recent?limit=3`, {
     cache: "no-store"
   });
