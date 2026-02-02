@@ -3,7 +3,7 @@ import { Suspense } from "react";
 
 import React from "react";
 import ContainerLay from "@/PageLayout/ContainerLay";
-import RecentPost  from "./components/home/RecentPost";
+import RecentPost  from "@/app/components/home/RecentPost";
 
 
 
