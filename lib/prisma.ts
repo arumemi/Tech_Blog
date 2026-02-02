@@ -6,19 +6,26 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-// Create a PostgreSQL connection pool
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+const getPrismaClient = () => {
+  if (!globalForPrisma.prisma) {
+    const pool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+    });
 
-// Create the adapter
-const adapter = new PrismaPg(pool);
+    const adapter = new PrismaPg(pool);
 
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    adapter,
-    log: ['query', 'error', 'warn'],
-  });
+    globalForPrisma.prisma = new PrismaClient({
+      adapter,
+      log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+    });
+  }
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+  return globalForPrisma.prisma;
+};
+
+export const prisma = getPrismaClient();
+
+if (process.env.NODE_ENV !== 'production') {
+  // Only cache in development
+  globalForPrisma.prisma = prisma;
+}
