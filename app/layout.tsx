@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import {  Poppins } from "next/font/google";
 import "./globals.css";
-import Navbar from "../app/components/general/navbar/Navbar";
-import Footer from "../app/components/general/Footer";
-import SignInModal from "../app/components/modals/SignInModal";
+import Navbar from "./components/general/navbar/Navbar";
+import Footer from "./components/general/Footer";
+import SignInModal from "./components/modals/SignInModal";
 import { Toaster } from "react-hot-toast";
-import QueryProvider from "../app/providers/QueryProvider";
+import QueryProvider from "./providers/QueryProvider";
 
 const poppings = Poppins({
   variable: "--font-poppins",
