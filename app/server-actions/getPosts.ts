@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 interface PostWithAuthor {
   id: string;
   title: string;
+  excerpt: string | null;
   content: string;
   slug: string;
   createdAt: Date;
@@ -60,6 +61,7 @@ export async function getAllPosts(): Promise<PostWithAuthor[]> {
       select: {
         id: true,
         title: true,
+        excerpt: true,
         content: true,
         slug: true,
         createdAt: true,
