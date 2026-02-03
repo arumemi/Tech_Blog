@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Post } from "@/app/types/post";
+import { getRecentPosts } from "@/app/server-actions/getPosts";
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -20,20 +21,14 @@ function calculateReadTime(excerpt: string | null): string {
 }
 
 export default async function RecentPost() {
-  const response = await fetch(`/api/posts/recent?limit=3`, {
-    cache: "no-store"
-  });
-  if (!response.ok) {
-    throw new Error("Failed to fetch recent posts");
-  }
-  const posts: Post[] = await response.json();
+  const posts = await getRecentPosts(3);
   return (
     <div className="space-y-4 sm:space-y-6 px-4 sm:px-6 lg:px-0">
       <h2 className="semi-bold text-gray-200 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
         Publicações Recentes
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-6">
-        {posts.map((post: Post, index: number) => {
+        {posts.map((post, index: number) => {
           return (
             <div
               key={post.id}
@@ -63,7 +58,7 @@ export default async function RecentPost() {
                   Ler mais <span className="group-hover/link:translate-x-1 transition-transform">→</span>
                 </Link>
                 <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 sm:gap-0 text-[10px] sm:text-xs text-gray-500 mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-700">
-                  <span className="flex items-center gap-1">📅 {formatDate(post.createdAt)}</span>
+                  <span className="flex items-center gap-1">📅 {formatDate(post.createdAt.toString())}</span>
                   <span className="flex items-center gap-1">⏱️ {calculateReadTime(post.excerpt)}</span>
                 </div>
               </div>

@@ -1,44 +1,51 @@
 import React from 'react'
 import Link from 'next/link'
-import { FaGithub, FaTwitter, FaLinkedin, FaEnvelope, FaHeart, FaFacebook } from 'react-icons/fa'
+import { FaGithub, FaTwitter, FaLinkedin, FaEnvelope, FaHeart, FaFacebook, FaInstagram } from 'react-icons/fa'
 
 export default function Footer() {
   return (
-    <footer className='relative bg-gradient-to-br from-gray-950 via-gray-900 to-black border-t border-gray-800 mt-20'>
+    <footer className='relative bg-linear-to-br from-slate-950 via-gray-900 to-black border-t border-gray-800 mt-20 overflow-hidden'>
       {/* Decorative gradient overlay */}
-      <div className='absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600'></div>
+      <div className='absolute top-0 left-0 w-full h-1 bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500'></div>
+      <div className='absolute -top-24 -left-16 w-64 h-64 bg-linear-to-br from-blue-600/30 via-purple-600/20 to-pink-600/10 blur-3xl rounded-full'></div>
+      <div className='absolute -bottom-24 -right-10 w-72 h-72 bg-linear-to-br from-emerald-500/20 via-cyan-500/15 to-indigo-500/10 blur-3xl rounded-full'></div>
       
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16'>
         {/* Main Footer Content */}
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12'>
           {/* Brand Section */}
           <div className='space-y-4'>
-            <h3 className='text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'>
+            <h3 className='text-2xl font-bold bg-linear-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-sm'>
               Ese Tech
             </h3>
             <p className='text-gray-400 text-sm leading-relaxed'>
               Explorando tecnologia, programação e inovação. Conteúdo de qualidade para desenvolvedores modernos.
             </p>
             <div className='flex gap-3'>
-              <a href='https://github.com' target='_blank' rel='noopener noreferrer' 
-                className='p-2 bg-gray-800 hover:bg-blue-600 rounded-lg transition-colors duration-300'>
-                <FaGithub size={20} className='text-gray-300' />
+              <a href='https://github.com/arumemi' target='_blank' rel='noopener noreferrer' 
+                className='p-2 bg-gray-800/80 hover:bg-linear-to-br hover:from-gray-700 hover:to-gray-900 rounded-lg transition-all duration-300 ring-1 ring-gray-700/50 hover:ring-cyan-500/50'>
+                <FaGithub size={20} className='text-gray-300 group-hover:text-white' />
               </a>
               
               
-              <a href='https://linkedin.com' target='_blank' rel='noopener noreferrer'
-                className='p-2 bg-gray-800 hover:bg-blue-600 rounded-lg transition-colors duration-300'>
+              <a href='https://www.linkedin.com/in/ese-fapohunda-118594360/' target='_blank' rel='noopener noreferrer'
+                className='p-2 bg-gray-800/80 hover:bg-linear-to-br hover:from-blue-600 hover:to-purple-600 rounded-lg transition-all duration-300 ring-1 ring-gray-700/50 hover:ring-blue-500/60'>
                 <FaLinkedin size={20} className='text-gray-300' />
               </a>
               <a href='mailto:esefapohunda@gmail.com' target='blank' rel='noopener noreferrer'
-                className='p-2 bg-gray-800 hover:bg-blue-600 rounded-lg transition-colors duration-300'>
+                className='p-2 bg-gray-800/80 hover:bg-linear-to-br hover:from-emerald-600 hover:to-cyan-600 rounded-lg transition-all duration-300 ring-1 ring-gray-700/50 hover:ring-emerald-500/60'>
                 <FaEnvelope size={20} className='text-gray-300' />
                 
               </a>
               <a href='https://www.facebook.com/essi.faps.2025' target='_blank' rel='noopener noreferrer'
-                className='p-2 bg-gray-800 hover:bg-blue-600 rounded-lg transition-colors duration-300'>
+                className='p-2 bg-gray-800/80 hover:bg-linear-to-br hover:from-blue-500 hover:to-indigo-600 rounded-lg transition-all duration-300 ring-1 ring-gray-700/50 hover:ring-indigo-500/60'>
                 <FaFacebook size={20} className='text-gray-300' />
               </a>
+              <a href='https://www.instagram.com/easy_ese_1/' target='_blank' rel='noopener noreferrer'
+                className='p-2 bg-gray-800/80 hover:bg-linear-to-br hover:from-pink-500 hover:via-purple-500 hover:to-amber-500 rounded-lg transition-all duration-300 ring-1 ring-gray-700/50 hover:ring-pink-500/60'>
+                <FaInstagram size={20} className='text-gray-300' />
+              </a>
+              
             </div>
           </div>
 
@@ -47,22 +54,22 @@ export default function Footer() {
             <h4 className='text-white font-semibold text-lg mb-4'>Links Rápidos</h4>
             <ul className='space-y-3'>
               <li>
-                <Link href='/' className='text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm'>
+                <Link href='/' className='text-gray-400 hover:text-cyan-300 transition-colors duration-300 text-sm'>
                   Início
                 </Link>
               </li>
               <li>
-                <Link href='/articles' className='text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm'>
+                <Link href='/articles' className='text-gray-400 hover:text-cyan-300 transition-colors duration-300 text-sm'>
                   Artigos
                 </Link>
               </li>
               <li>
-                <Link href='/about' className='text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm'>
+                <Link href='/about' className='text-gray-400 hover:text-cyan-300 transition-colors duration-300 text-sm'>
                   Sobre
                 </Link>
               </li>
               <li>
-                <Link href='/write' className='text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm'>
+                <Link href='/write' className='text-gray-400 hover:text-cyan-300 transition-colors duration-300 text-sm'>
                   Escrever
                 </Link>
               </li>
@@ -74,22 +81,22 @@ export default function Footer() {
             <h4 className='text-white font-semibold text-lg mb-4'>Categorias</h4>
             <ul className='space-y-3'>
               <li>
-                <Link href='/articles?category=react' className='text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm'>
+                <Link href='/articles?category=react' className='text-gray-400 hover:text-purple-300 transition-colors duration-300 text-sm'>
                   React & Frontend
                 </Link>
               </li>
               <li>
-                <Link href='/articles?category=python' className='text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm'>
+                <Link href='/articles?category=python' className='text-gray-400 hover:text-purple-300 transition-colors duration-300 text-sm'>
                   Python
                 </Link>
               </li>
               <li>
-                <Link href='/articles?category=devops' className='text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm'>
+                <Link href='/articles?category=devops' className='text-gray-400 hover:text-purple-300 transition-colors duration-300 text-sm'>
                   DevOps
                 </Link>
               </li>
               <li>
-                <Link href='/articles?category=database' className='text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm'>
+                <Link href='/articles?category=database' className='text-gray-400 hover:text-purple-300 transition-colors duration-300 text-sm'>
                   Banco de Dados
                 </Link>
               </li>
@@ -106,9 +113,9 @@ export default function Footer() {
               <input 
                 type='email' 
                 placeholder='seu@email.com'
-                className='px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all'
+                className='px-4 py-2 bg-gray-800/80 border border-gray-700/70 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all placeholder:text-gray-500'
               />
-              <button className='px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 text-sm'>
+              <button className='px-4 py-2 bg-linear-to-r from-cyan-600 via-blue-600 to-purple-600 hover:from-cyan-500 hover:via-blue-500 hover:to-purple-500 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 text-sm shadow-lg shadow-cyan-900/30'>
                 Inscrever-se
               </button>
             </div>
