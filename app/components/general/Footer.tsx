@@ -110,11 +110,13 @@ export default function Footer() {
               Receba as últimas atualizações diretamente no seu email.
             </p>
             <div className='flex flex-col gap-2'>
+              <Link href='mailto:esefapohunda@gmail.com' className='text-gray-400 hover:text-cyan-300 transition-colors duration-300 text-sm'>
               <input 
                 type='email' 
                 placeholder='seu@email.com'
                 className='px-4 py-2 bg-gray-800/80 border border-gray-700/70 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all placeholder:text-gray-500'
               />
+              </Link>
               <button className='px-4 py-2 bg-linear-to-r from-cyan-600 via-blue-600 to-purple-600 hover:from-cyan-500 hover:via-blue-500 hover:to-purple-500 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 text-sm shadow-lg shadow-cyan-900/30'>
                 Inscrever-se
               </button>
