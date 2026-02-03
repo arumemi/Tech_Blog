@@ -29,6 +29,7 @@ export async function getPostsBySlug(slug: string): Promise<PostWithAuthor | nul
       select: {
         id: true,
         title: true,
+        excerpt: true,
         content: true,
         slug: true,
         createdAt: true,
@@ -97,6 +98,7 @@ export async function getRecentPosts(limit: number = 5): Promise<PostWithAuthor[
       select: {
         id: true,
         title: true,
+        excerpt: true,
         content: true,
         slug: true,
         createdAt: true,

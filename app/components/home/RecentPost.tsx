@@ -20,7 +20,13 @@ function calculateReadTime(excerpt: string | null): string {
 }
 
 export default async function RecentPost() {
-  const posts = await getRecentPosts(3);
+  let posts = [] as Awaited<ReturnType<typeof getRecentPosts>>;
+  try {
+    posts = await getRecentPosts(3);
+  } catch (error) {
+    console.error("Failed to fetch recent posts:", error);
+    posts = [];
+  }
   return (
     <div className="space-y-4 sm:space-y-6 px-4 sm:px-6 lg:px-0">
       <h2 className="semi-bold text-gray-200 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
