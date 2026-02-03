@@ -1,7 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Post } from "@/app/types/post";
-import { getRecentPosts } from "@/app/server-actions/getPosts";
+import { headers } from "next/headers";
+
+type RecentPostItem = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  coverImageURL: string | null;
+  createdAt: string;
+};
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -20,8 +28,25 @@ function calculateReadTime(excerpt: string | null): string {
   return `${minutes} min de leitura`;
 }
 
+async function fetchRecentPosts(limit: number): Promise<RecentPostItem[]> {
+  const headersList = await headers();
+  const host = headersList.get("x-forwarded-host") ?? headersList.get("host");
+  const proto = headersList.get("x-forwarded-proto") ?? "https";
+  const baseUrl = host ? `${proto}://${host}` : "http://localhost:3000";
+
+  const response = await fetch(`${baseUrl}/api/posts/recent?limit=${limit}`, {
+    next: { revalidate: 60 },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch recent posts");
+  }
+
+  return response.json();
+}
+
 export default async function RecentPost() {
-  const posts = await getRecentPosts(3);
+  const posts = await fetchRecentPosts(3);
   return (
     <div className="space-y-4 sm:space-y-6 px-4 sm:px-6 lg:px-0">
       <h2 className="semi-bold text-gray-200 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
