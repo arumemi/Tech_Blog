@@ -15,7 +15,7 @@ function MainContent() {
         <div className="text-center px-4 py-6 md:py-8 animate-fade-in">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-200 tracking-wide leading-tight md:leading-snug lg:leading-normal animate-slide-down">
             <span className="text-blue-500 inline-block animate-pulse-slow">
-              Bem-vindo ao Futuro da Tecnologia
+              Bem-vindo ao Futuro da Tecnologia !
             </span>
             <br />
             <span className="text-gray-300 text-2xl sm:text-3xl md:text-4xl lg:text-5xl block mt-4 animate-slide-up animation-delay-300">
