@@ -6,20 +6,20 @@ export default function Footer() {
   return (
     <footer className='relative bg-linear-to-br from-slate-950 via-gray-900 to-black border-t border-gray-800 mt-20 overflow-hidden'>
       {/* Decorative gradient overlay */}
-      <div className='absolute top-0 left-0 w-full h-1 bg-linear-to-r from-cyan-500 via-purple-500 to-pink-500'></div>
-      <div className='absolute -top-24 -left-16 w-64 h-64 bg-linear-to-br from-blue-600/30 via-purple-600/20 to-pink-600/10 blur-3xl rounded-full'></div>
-      <div className='absolute -bottom-24 -right-10 w-72 h-72 bg-linear-to-br from-emerald-500/20 via-cyan-500/15 to-indigo-500/10 blur-3xl rounded-full'></div>
+      <div className='absolute top-0 left-0 w-full h-1 bg-linear-to-r from-amber-500 via-orange-500 to-pink-500'></div>
+      <div className='absolute -top-24 -left-16 w-64 h-64 bg-linear-to-br from-amber-600/30 via-orange-600/20 to-pink-600/10 blur-3xl rounded-full'></div>
+      <div className='absolute -bottom-24 -right-10 w-72 h-72 bg-linear-to-br from-rose-500/20 via-amber-500/15 to-orange-500/10 blur-3xl rounded-full'></div>
       
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16'>
         {/* Main Footer Content */}
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12'>
           {/* Brand Section */}
           <div className='space-y-4'>
-            <h3 className='text-2xl font-bold bg-linear-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-sm'>
-              Ese Tech
+            <h3 className='text-2xl font-bold bg-linear-to-r from-amber-400 via-orange-400 to-pink-400 bg-clip-text text-transparent drop-shadow-sm'>
+              Prime Site Developer
             </h3>
             <p className='text-gray-400 text-sm leading-relaxed'>
-              Explorando tecnologia, programação e inovação. Conteúdo de qualidade para desenvolvedores modernos.
+              Desenvolvimento web moderno, performance e experiências digitais feitas sob medida.
             </p>
             <div className='flex gap-3'>
               <a href='https://github.com/arumemi' target='_blank' rel='noopener noreferrer' 
@@ -82,22 +82,22 @@ export default function Footer() {
             <ul className='space-y-3'>
               <li>
                 <Link href='/articles?category=react' className='text-gray-400 hover:text-purple-300 transition-colors duration-300 text-sm'>
-                  React & Frontend
+                  E-commerce
                 </Link>
               </li>
               <li>
                 <Link href='/articles?category=python' className='text-gray-400 hover:text-purple-300 transition-colors duration-300 text-sm'>
-                  Python
+                  landing Pages
                 </Link>
               </li>
               <li>
                 <Link href='/articles?category=devops' className='text-gray-400 hover:text-purple-300 transition-colors duration-300 text-sm'>
-                  DevOps
+                  Portfólios
                 </Link>
               </li>
               <li>
                 <Link href='/articles?category=database' className='text-gray-400 hover:text-purple-300 transition-colors duration-300 text-sm'>
-                  Banco de Dados
+                  Blogs
                 </Link>
               </li>
             </ul>
@@ -128,7 +128,7 @@ export default function Footer() {
         <div className='pt-8 border-t border-gray-800'>
           <div className='flex flex-col md:flex-row justify-between items-center gap-4'>
             <p className='text-gray-400 text-sm text-center md:text-left'>
-              © {new Date().getFullYear()} Ese Tech. Todos os direitos reservados.
+              © {new Date().getFullYear()} Prime Site Developer. Todos os direitos reservados.
             </p>
             <div className='flex items-center gap-1 text-gray-400 text-sm'>
              

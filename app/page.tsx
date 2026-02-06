@@ -15,12 +15,11 @@ function MainContent() {
         <div className="text-center px-4 py-6 md:py-8 animate-fade-in">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-200 tracking-wide leading-tight md:leading-snug lg:leading-normal animate-slide-down">
             <span className="text-blue-500 inline-block animate-pulse-slow">
-              Bem-vindo ao Futuro da Tecnologia !
+              Bem-vindo — Vamos construir sua presença online
             </span>
             <br />
             <span className="text-gray-300 text-2xl sm:text-3xl md:text-4xl lg:text-5xl block mt-4 animate-slide-up animation-delay-300">
-              Sua fonte confiável para o que há de mais recente em tecnologia e
-              programação!
+             Nós orientamos você na escolha do site ideal para que seu negócio tenha uma aparência profissional e transmita credibilidade no ambiente digital.
             </span>
           </h1>
         </div>
@@ -53,18 +52,12 @@ function MainContent() {
                 </span>
               </div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
-                Aprimore suas habilidades em tecnologia e acompanhe as
-                tendências do setor..
+                Bem-vindo ao seu ponto de partida digital
               </h2>
               <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed">
-                A tecnologia evolui mais rápido do que nunca, e estar à frente
-                vai muito além de apenas acompanhar as mudanças. Este blog de
-                tecnologia é o seu espaço para explorar desenvolvimento web
-                moderno, tecnologias emergentes e soluções reais que moldam o
-                cenário digital atual. Descubra conteúdos práticos, tutoriais
-                focados em desenvolvedores e tendências do setor pensados para
-                ajudar você a criar soluções melhores, se adaptar mais rápido e
-                se manter competitivo no mundo da tecnologia.
+               No mundo digital de hoje, ter uma presença online é essencial para qualquer negócio. Um site ajuda a construir confiança, alcançar mais clientes e fortalecer sua marca. Aqui, você vai conhecer diferentes tipos de sites e descobrir qual é o mais adequado para o seu negócio.
+               <br />
+               Descubra como diferentes tipos de sites impulsionam o crescimento do seu negócio e escolha a melhor solução para alcançar seus objetivos.
               </p>
               <div className="pt-4">
                 <a
